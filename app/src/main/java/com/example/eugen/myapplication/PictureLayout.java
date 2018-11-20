@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 package com.example.eugen.myapplication;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Picture;
@@ -24,14 +25,18 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+
 public class PictureLayout extends ViewGroup {
     private final Picture mPicture = new Picture();
+
     public PictureLayout(Context context) {
         super(context);
     }
+
     public PictureLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     @Override
     public void addView(View child) {
         if (getChildCount() > 1) {
@@ -39,6 +44,7 @@ public class PictureLayout extends ViewGroup {
         }
         super.addView(child);
     }
+
     @Override
     public void addView(View child, int index) {
         if (getChildCount() > 1) {
@@ -46,6 +52,7 @@ public class PictureLayout extends ViewGroup {
         }
         super.addView(child, index);
     }
+
     @Override
     public void addView(View child, LayoutParams params) {
         if (getChildCount() > 1) {
@@ -53,6 +60,7 @@ public class PictureLayout extends ViewGroup {
         }
         super.addView(child, params);
     }
+
     @Override
     public void addView(View child, int index, LayoutParams params) {
         if (getChildCount() > 1) {
@@ -60,10 +68,12 @@ public class PictureLayout extends ViewGroup {
         }
         super.addView(child, index, params);
     }
+
     @Override
     protected LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int count = getChildCount();
@@ -85,6 +95,7 @@ public class PictureLayout extends ViewGroup {
         setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec),
                 resolveSize(maxHeight, heightMeasureSpec));
     }
+
     private void drawPict(Canvas canvas, int x, int y, int w, int h,
                           float sx, float sy) {
         canvas.save();
@@ -95,21 +106,23 @@ public class PictureLayout extends ViewGroup {
         canvas.drawPicture(mPicture);
         canvas.restore();
     }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(mPicture.beginRecording(getWidth(), getHeight()));
         mPicture.endRecording();
-        int x = getWidth()/2;
-        int y = getHeight()/2;
+        int x = getWidth() / 2;
+        int y = getHeight() / 2;
         if (false) {
             canvas.drawPicture(mPicture);
         } else {
-            drawPict(canvas, 0, 0, x, y,  1,  1);
-            drawPict(canvas, x, 0, x, y, -1,  1);
-            drawPict(canvas, 0, y, x, y,  1, -1);
+            drawPict(canvas, 0, 0, x, y, 1, 1);
+            drawPict(canvas, x, 0, x, y, -1, 1);
+            drawPict(canvas, 0, y, x, y, 1, -1);
             drawPict(canvas, x, y, x, y, -1, -1);
         }
     }
+
     @Override
     public ViewParent invalidateChildInParent(int[] location, Rect dirty) {
         location[0] = getLeft();
@@ -117,6 +130,7 @@ public class PictureLayout extends ViewGroup {
         dirty.set(0, 0, getWidth(), getHeight());
         return getParent();
     }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         final int count = super.getChildCount();
